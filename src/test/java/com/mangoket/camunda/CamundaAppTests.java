@@ -1,10 +1,10 @@
-package com.mangoket.camunda.CamundaApp;
+package com.mangoket.camunda;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CamundaAppApplicationTests {
+class CamundaAppTests {
 
 	@Test
 	void contextLoads() {

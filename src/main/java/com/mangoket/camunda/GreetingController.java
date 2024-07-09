@@ -1,4 +1,4 @@
-package com.mangoket.camunda.CamundaApp;
+package com.mangoket.camunda;
 
 
 import java.util.concurrent.atomic.AtomicLong;
