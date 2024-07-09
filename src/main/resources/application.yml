@@ -1,0 +1,11 @@
+camunda:
+  client:
+    mode: saas
+    auth:
+      client-id: eSoT9hjw.fNfqmr0bwbw6QcShLgMI8Mj
+      client-secret: 0fOQ.XiByQ9iLFWTvqtdKuHk0xvP3C2spdQR2XZttmYC_hWI-9pPphDpoAPwn9.g
+    cluster-id: 3e20a7b7-924f-4dd7-a5ce-e1ffea93ce65
+    region: dsm-1
+    zeebe:
+      defaults:
+        type: updateProductPrice

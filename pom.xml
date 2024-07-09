@@ -35,6 +35,30 @@
 	<properties>
 		<java.version>17</java.version>
 	</properties>
+
+	<repositories>
+		<repository>
+			<id>central</id>
+			<name>Central Repository</name>
+			<url>https://repo1.maven.org/maven2/</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>identity</id>
+			<name>Camunda Identity</name>
+			<url>https://artifacts.camunda.com/artifactory/camunda-identity/</url>
+		</repository>
+	</repositories>
+
 	<dependencies>
 		<!-- for REST api -->
 		<dependency>
@@ -55,15 +79,15 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>io.camunda</groupId>
-			<artifactId>zeebe-client-java</artifactId>
-			<version>8.3.0</version>
+			<groupId>io.camunda.spring</groupId>
+			<artifactId>spring-boot-starter-camunda</artifactId>
+			<version>8.5.5</version>
 		</dependency>
 		<!-- for database management -->
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.30</version>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<version>8.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -76,6 +100,22 @@
 			<artifactId>lombok</artifactId>
 			<version>1.18.30</version>
 			<scope>provided</scope>
+		</dependency>
+		<!-- for zeebe client -->
+		<dependency>
+			<groupId>io.camunda</groupId>
+			<artifactId>spring-boot-starter-camunda-sdk</artifactId>
+			<version>8.5.5</version>
+		</dependency>
+		<!-- for tasklist api client -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.jaxrs</groupId>
+			<artifactId>jackson-jaxrs-json-provider</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.openapitools</groupId>
+			<artifactId>jackson-databind-nullable</artifactId>
+			<version>0.2.6</version>
 		</dependency>
 		<!-- for unit test -->
 		<dependency>
@@ -91,6 +131,41 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<compilerArgs>
+						<arg>-parameters</arg>
+					</compilerArgs>
+				</configuration>
+			</plugin>
+			<!-- for tasklist api client -->
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>7.2.0</version>
+				<executions>
+					<execution>
+						<id>generate-client</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>/Users/cody.huang/projects/CamundaApp/src/main/resources/api-docs.yaml</inputSpec>
+							<generatorName>java</generatorName>
+							<apiPackage>com.example.tasklist.api</apiPackage>
+							<modelPackage>com.example.tasklist.model</modelPackage>
+							<generateApiTests>false</generateApiTests>
+							<generateModelTests>false</generateModelTests>
+							<library>apache-httpclient</library>
+							<configOptions>
+								<useJakartaEe>true</useJakartaEe>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

@@ -1,8 +1,9 @@
-package com.mangoket.camunda;
+package com.mangoket.camunda.controller;
 
 
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.mangoket.camunda.model.Greeting;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
