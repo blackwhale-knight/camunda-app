@@ -2,7 +2,7 @@ package com.mangoket.camunda.controller;
 
 import com.example.tasklist.model.TaskResponse;
 import com.example.tasklist.model.TaskSearchResponse;
-import com.mangoket.camunda.controller.request.process.TaskDecision;
+import com.mangoket.camunda.controller.request.process.Decision;
 import com.mangoket.camunda.service.TaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,8 +29,9 @@ public class TaskController {
     }
 
     @PatchMapping("/tasks/{taskId}")
-    public void submitDecision(@RequestBody TaskDecision taskDecision) {
-        taskService.submitTaskDecision(taskDecision);
+    public void submitTaskDecision(@PathVariable String taskId, @RequestBody Decision decision) {
+        String decisionValue = decision.getDecision().getStrValue();
+        taskService.submitTaskDecision(taskId, decisionValue);
     }
 
 }

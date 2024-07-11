@@ -2,13 +2,7 @@ package com.mangoket.camunda.controller;
 
 import com.mangoket.camunda.controller.request.process.UpdateProductPriceProcessRequest;
 import com.mangoket.camunda.controller.helper.ProcessVariablesAssembler;
-import com.mangoket.camunda.controller.response.ProcessResponse;
 import com.mangoket.camunda.service.ProcessService;
-import io.camunda.operate.model.ProcessInstance;
-import com.mangoket.camunda.sample.UserTasksManagementService;
-import io.camunda.operate.CamundaOperateClient;
-import io.camunda.operate.exception.OperateException;
-import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.ProcessInstanceEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +20,7 @@ public class ProcessController {
     private ProcessService processService;
 
     @PostMapping("/processes/update-product-price")
-    public long createUpdateProductPriceProcess(@RequestBody UpdateProductPriceProcessRequest request) throws Exception {
+    public long createUpdateProductPriceProcess(@RequestBody UpdateProductPriceProcessRequest request) {
         String processName = request.getProcessType().getProcessName();
         Map<String, Object> processVariables
                 = ProcessVariablesAssembler.assembleUpdateProductPriceProcessVariables(request);

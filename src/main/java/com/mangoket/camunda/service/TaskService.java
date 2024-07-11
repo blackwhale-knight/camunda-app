@@ -5,7 +5,6 @@ import com.example.tasklist.api.TaskApi;
 import com.example.tasklist.model.TaskResponse;
 import com.example.tasklist.model.TaskSearchRequest;
 import com.example.tasklist.model.TaskSearchResponse;
-import com.mangoket.camunda.controller.request.process.TaskDecision;
 import io.camunda.common.auth.Authentication;
 import io.camunda.common.auth.Product;
 import io.camunda.zeebe.client.ZeebeClient;
@@ -23,12 +22,16 @@ import java.util.Map;
 public class TaskService {
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskService.class);
 
+    private static final String DECISION_FIELD_NAME = "decision";
+
     @Autowired
     private ZeebeClient zeebeClient;
 
-    @Autowired private TaskApi taskApi;
+    @Autowired
+    private TaskApi taskApi;
 
-    @Autowired private Authentication authentication;
+    @Autowired
+    private Authentication authentication;
 
     public TaskResponse getTask(String taskId) {
         TaskResponse taskResponse = new TaskResponse();
@@ -59,17 +62,15 @@ public class TaskService {
         return tasks;
     }
 
-    public void submitTaskDecision(TaskDecision taskDecision) {
-        String taskId = taskDecision.getTaskId();
-        String decision = taskDecision.getDecisionType().getStrValue();
-
+    public void submitTaskDecision(String taskId, String decisionValue) {
         Map<String, Object> variables = new HashMap<>();
-        variables.put("decision", decision);
+        variables.put(DECISION_FIELD_NAME, decisionValue);
 
         try {
-            zeebeClient.newUserTaskCompleteCommand(
-                    Long.parseLong(taskId)
-            ).variables(variables).send().get();
+            zeebeClient.newUserTaskCompleteCommand(Long.parseLong(taskId))
+                    .variables(variables)
+                    .send()
+                    .get();
         } catch (Exception e) {
             LOGGER.error(e.getLocalizedMessage());
         }
