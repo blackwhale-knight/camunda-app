@@ -10,11 +10,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class UpdateProductPriceJobWorker implements BaseJobWorker {
     private static final Logger LOGGER = LoggerFactory.getLogger(UpdateProductPriceJobWorker.class);
+
+    private static final String PRODUCT_ID_FIELD = "productId";
+    private static final String NEW_SALE_PRICE_FIELD = "newSalePrice";
     @Override
-    @JobWorker(type = "updateProductPrice", fetchVariables={"productId", "newSalePrice"})
+    @JobWorker(type = "updateProductPrice")
     public void handle(JobClient client, ActivatedJob job) {
-        String productId = (String)job.getVariablesAsMap().get("productId");
-        Double newSalePrice = (Double)job.getVariablesAsMap().get("newSalePrice");
+        String productId = (String) job.getVariablesAsMap().get(PRODUCT_ID_FIELD);
+        Double newSalePrice = (Double) job.getVariablesAsMap().get(NEW_SALE_PRICE_FIELD);
+
         LOGGER.info("Product: {} update to ${}.", productId, newSalePrice);
         /* TODO: Update Product Price
         *   1. by delegate to Mango5 -> throw UpdateProductSalePriceTO to MQ
