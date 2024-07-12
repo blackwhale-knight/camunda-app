@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns:modeler="http://camunda.org/schema/modeler/1.0"
+                  xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn"
+                  id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler"
+                  exporterVersion="2152425" modeler:executionPlatform="Camunda Cloud"
+                  modeler:executionPlatformVersion="8.5.0"
+                  camunda:diagramRelationId="940a8b5c-0049-4ccb-809c-358bfa17b459">
+    <bpmn:collaboration id="Collaboration_UpdateProductPrice">
+        <bpmn:participant id="Participant_UpdateProductPrice" name="Update Product Price"
+                          processRef="Process_UpdateProductPrice"/>
+    </bpmn:collaboration>
+    <bpmn:process id="Process_UpdateProductPrice" name="Update Product Price" isExecutable="true">
+        <bpmn:laneSet id="LaneSet_0fsbu18">
+            <bpmn:lane id="Lane_Requester" name="Requester">
+                <bpmn:flowNodeRef>StartEvent_UpdateProductPrice</bpmn:flowNodeRef>
+            </bpmn:lane>
+            <bpmn:lane id="Lane_Manager" name="Manager">
+                <bpmn:flowNodeRef>UserTask_ReviewRequest</bpmn:flowNodeRef>
+                <bpmn:flowNodeRef>Gateway_ApproveReject</bpmn:flowNodeRef>
+                <bpmn:flowNodeRef>SendTask_NotifyRequesterRejection</bpmn:flowNodeRef>
+                <bpmn:flowNodeRef>Gateway_0fairul</bpmn:flowNodeRef>
+                <bpmn:flowNodeRef>SendTask_NofityRequesterApproval</bpmn:flowNodeRef>
+                <bpmn:flowNodeRef>ServiceTask_UpdateProductPrice</bpmn:flowNodeRef>
+                <bpmn:flowNodeRef>Gateway_130k0ci</bpmn:flowNodeRef>
+                <bpmn:flowNodeRef>EndEvent_Rejection</bpmn:flowNodeRef>
+                <bpmn:flowNodeRef>EndEvent_Approval</bpmn:flowNodeRef>
+            </bpmn:lane>
+        </bpmn:laneSet>
+        <bpmn:dataStoreReference id="DataStoreReference_1550gh3" name="Update product sale price"/>
+        <bpmn:startEvent id="StartEvent_UpdateProductPrice" name="Update Product Price">
+            <bpmn:extensionElements/>
+            <bpmn:outgoing>Flow_0u9st07</bpmn:outgoing>
+        </bpmn:startEvent>
+        <bpmn:userTask id="UserTask_ReviewRequest" name="Review Request">
+            <bpmn:extensionElements>
+                <zeebe:ioMapping>
+                    <zeebe:input source="=productId" target="productId"/>
+                    <zeebe:input source="=requester" target="requester"/>
+                    <zeebe:input source="=newSalePrice" target="newSalePrice"/>
+                    <zeebe:input source="=oldSalePrice" target="oldSalePrice"/>
+                    <zeebe:input source="=requestId" target="requestId"/>
+                    <zeebe:output source="=decision" target="decision"/>
+                    <zeebe:output source="=productId" target="productId"/>
+                </zeebe:ioMapping>
+                <zeebe:assignmentDefinition assignee="cody.huang@mangoket.com"
+                                            candidateUsers="cody.huang@mangoket.com"/>
+                <zeebe:formDefinition formId="Form_ReviewRequest"/>
+                <zeebe:userTask/>
+            </bpmn:extensionElements>
+            <bpmn:incoming>Flow_0u9st07</bpmn:incoming>
+            <bpmn:outgoing>Flow_13psiw7</bpmn:outgoing>
+        </bpmn:userTask>
+        <bpmn:exclusiveGateway id="Gateway_ApproveReject" name="Approve/Reject?">
+            <bpmn:incoming>Flow_13psiw7</bpmn:incoming>
+            <bpmn:outgoing>Flow_ApproveRequest</bpmn:outgoing>
+            <bpmn:outgoing>Flow_RejectRequest</bpmn:outgoing>
+        </bpmn:exclusiveGateway>
+        <bpmn:sendTask id="SendTask_NotifyRequesterRejection" name="Notify Requester Rejection">
+            <bpmn:extensionElements>
+                <zeebe:taskDefinition type="notifyRequesterRejection"/>
+                <zeebe:ioMapping>
+                    <zeebe:input source="=requester" target="requester"/>
+                    <zeebe:input source="=requestId" target="requestId"/>
+                    <zeebe:input source="=productId" target="productId"/>
+                    <zeebe:input source="=newSalePrice" target="newSalePrice"/>
+                    <zeebe:input source="=oldSalePrice" target="oldSalePrice"/>
+                </zeebe:ioMapping>
+            </bpmn:extensionElements>
+            <bpmn:incoming>Flow_RejectRequest</bpmn:incoming>
+            <bpmn:outgoing>Flow_0vz48wh</bpmn:outgoing>
+        </bpmn:sendTask>
+        <bpmn:parallelGateway id="Gateway_0fairul">
+            <bpmn:incoming>Flow_ApproveRequest</bpmn:incoming>
+            <bpmn:outgoing>Flow_UpdateProductPrice</bpmn:outgoing>
+            <bpmn:outgoing>Flow_NotifyRequesterApproval</bpmn:outgoing>
+        </bpmn:parallelGateway>
+        <bpmn:sendTask id="SendTask_NofityRequesterApproval" name="Notify Requester Approval">
+            <bpmn:extensionElements>
+                <zeebe:taskDefinition type="notifyRequesterApproval"/>
+                <zeebe:ioMapping>
+                    <zeebe:input source="=requester" target="requester"/>
+                    <zeebe:input source="=requestId" target="requestId"/>
+                    <zeebe:input source="=productId" target="productId"/>
+                    <zeebe:input source="=newSalePrice" target="newSalePrice"/>
+                    <zeebe:input source="=oldSalePrice" target="oldSalePrice"/>
+                </zeebe:ioMapping>
+            </bpmn:extensionElements>
+            <bpmn:incoming>Flow_NotifyRequesterApproval</bpmn:incoming>
+            <bpmn:outgoing>Flow_0zclve3</bpmn:outgoing>
+        </bpmn:sendTask>
+        <bpmn:serviceTask id="ServiceTask_UpdateProductPrice" name="Update Product Price">
+            <bpmn:extensionElements>
+                <zeebe:taskDefinition type="updateProductPrice"/>
+                <zeebe:ioMapping>
+                    <zeebe:input source="=productId" target="productId"/>
+                    <zeebe:input source="=newSalePrice" target="newSalePrice"/>
+                    <zeebe:output source="=productId" target="productId"/>
+                    <zeebe:output source="=newSalePrice" target="newSalePrice"/>
+                </zeebe:ioMapping>
+            </bpmn:extensionElements>
+            <bpmn:incoming>Flow_UpdateProductPrice</bpmn:incoming>
+            <bpmn:outgoing>Flow_02tqstd</bpmn:outgoing>
+            <bpmn:dataOutputAssociation id="DataOutputAssociation_0xxim8l">
+                <bpmn:targetRef>DataStoreReference_1550gh3</bpmn:targetRef>
+            </bpmn:dataOutputAssociation>
+        </bpmn:serviceTask>
+        <bpmn:sequenceFlow id="Flow_0u9st07" sourceRef="StartEvent_UpdateProductPrice"
+                           targetRef="UserTask_ReviewRequest"/>
+        <bpmn:sequenceFlow id="Flow_02tqstd" sourceRef="ServiceTask_UpdateProductPrice" targetRef="Gateway_130k0ci"/>
+        <bpmn:sequenceFlow id="Flow_13psiw7" sourceRef="UserTask_ReviewRequest" targetRef="Gateway_ApproveReject"/>
+        <bpmn:sequenceFlow id="Flow_ApproveRequest" name="Approve Request" sourceRef="Gateway_ApproveReject"
+                           targetRef="Gateway_0fairul">
+            <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=decision="approved"</bpmn:conditionExpression>
+        </bpmn:sequenceFlow>
+        <bpmn:sequenceFlow id="Flow_RejectRequest" name="Reject Request" sourceRef="Gateway_ApproveReject"
+                           targetRef="SendTask_NotifyRequesterRejection">
+            <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=decision="rejected"</bpmn:conditionExpression>
+        </bpmn:sequenceFlow>
+        <bpmn:sequenceFlow id="Flow_0vz48wh" sourceRef="SendTask_NotifyRequesterRejection"
+                           targetRef="EndEvent_Rejection"/>
+        <bpmn:sequenceFlow id="Flow_UpdateProductPrice" name="Update Product Price" sourceRef="Gateway_0fairul"
+                           targetRef="ServiceTask_UpdateProductPrice"/>
+        <bpmn:sequenceFlow id="Flow_NotifyRequesterApproval" name="Notify Requester Approval"
+                           sourceRef="Gateway_0fairul" targetRef="SendTask_NofityRequesterApproval"/>
+        <bpmn:sequenceFlow id="Flow_0zclve3" sourceRef="SendTask_NofityRequesterApproval" targetRef="Gateway_130k0ci"/>
+        <bpmn:parallelGateway id="Gateway_130k0ci">
+            <bpmn:incoming>Flow_0zclve3</bpmn:incoming>
+            <bpmn:incoming>Flow_02tqstd</bpmn:incoming>
+            <bpmn:outgoing>Flow_1nmdyag</bpmn:outgoing>
+        </bpmn:parallelGateway>
+        <bpmn:sequenceFlow id="Flow_1nmdyag" sourceRef="Gateway_130k0ci" targetRef="EndEvent_Approval"/>
+        <bpmn:endEvent id="EndEvent_Rejection" name="Rejection">
+            <bpmn:incoming>Flow_0vz48wh</bpmn:incoming>
+        </bpmn:endEvent>
+        <bpmn:endEvent id="EndEvent_Approval" name="Approval">
+            <bpmn:incoming>Flow_1nmdyag</bpmn:incoming>
+        </bpmn:endEvent>
+    </bpmn:process>
+    <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+        <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_UpdateProductPrice">
+            <bpmndi:BPMNShape id="Participant_0ubkcei_di" bpmnElement="Participant_UpdateProductPrice"
+                              isHorizontal="true">
+                <dc:Bounds x="163" y="84" width="1844" height="700"/>
+                <bpmndi:BPMNLabel/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="Lane_11tdj5t_di" bpmnElement="Lane_Manager" isHorizontal="true">
+                <dc:Bounds x="193" y="290" width="1814" height="494"/>
+                <bpmndi:BPMNLabel/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="Lane_0pnwoaa_di" bpmnElement="Lane_Requester" isHorizontal="true">
+                <dc:Bounds x="193" y="84" width="1814" height="206"/>
+                <bpmndi:BPMNLabel/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="Event_0zfo4f3_di" bpmnElement="StartEvent_UpdateProductPrice">
+                <dc:Bounds x="262" y="176" width="36" height="36"/>
+                <bpmndi:BPMNLabel>
+                    <dc:Bounds x="242" y="219" width="77" height="27"/>
+                </bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="Activity_0avtd9w_di" bpmnElement="UserTask_ReviewRequest">
+                <dc:Bounds x="590" y="484" width="100" height="80"/>
+                <bpmndi:BPMNLabel/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="Gateway_0mm41bf_di" bpmnElement="Gateway_ApproveReject" isMarkerVisible="true">
+                <dc:Bounds x="865" y="499" width="50" height="50"/>
+                <bpmndi:BPMNLabel>
+                    <dc:Bounds x="919" y="547" width="82" height="14"/>
+                </bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="Activity_05or36c_di" bpmnElement="SendTask_NotifyRequesterRejection">
+                <dc:Bounds x="1330" y="384" width="100" height="80"/>
+                <bpmndi:BPMNLabel/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="Gateway_0fairul_di" bpmnElement="Gateway_0fairul">
+                <dc:Bounds x="1115" y="609" width="50" height="50"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="Activity_1in9no7_di" bpmnElement="SendTask_NofityRequesterApproval">
+                <dc:Bounds x="1330" y="514" width="100" height="80"/>
+                <bpmndi:BPMNLabel/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="Activity_1amhbq4_di" bpmnElement="ServiceTask_UpdateProductPrice">
+                <dc:Bounds x="1330" y="674" width="100" height="80"/>
+                <bpmndi:BPMNLabel/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="Gateway_130k0ci_di" bpmnElement="Gateway_130k0ci">
+                <dc:Bounds x="1635" y="609" width="50" height="50"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="Event_0855kcw_di" bpmnElement="EndEvent_Rejection">
+                <dc:Bounds x="1842" y="406" width="36" height="36"/>
+                <bpmndi:BPMNLabel>
+                    <dc:Bounds x="1839" y="449" width="46" height="14"/>
+                </bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape id="Event_0xvuow7_di" bpmnElement="EndEvent_Approval">
+                <dc:Bounds x="1842" y="616" width="36" height="36"/>
+                <bpmndi:BPMNLabel>
+                    <dc:Bounds x="1838" y="659" width="44" height="14"/>
+                </bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="Flow_0u9st07_di" bpmnElement="Flow_0u9st07">
+                <di:waypoint x="298" y="194"/>
+                <di:waypoint x="444" y="194"/>
+                <di:waypoint x="444" y="524"/>
+                <di:waypoint x="590" y="524"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="Flow_02tqstd_di" bpmnElement="Flow_02tqstd">
+                <di:waypoint x="1430" y="714"/>
+                <di:waypoint x="1660" y="714"/>
+                <di:waypoint x="1660" y="659"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="Flow_13psiw7_di" bpmnElement="Flow_13psiw7">
+                <di:waypoint x="690" y="524"/>
+                <di:waypoint x="865" y="524"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="Flow_08hq9ir_di" bpmnElement="Flow_ApproveRequest">
+                <di:waypoint x="890" y="549"/>
+                <di:waypoint x="890" y="634"/>
+                <di:waypoint x="1115" y="634"/>
+                <bpmndi:BPMNLabel>
+                    <dc:Bounds x="919" y="647" width="85" height="14"/>
+                </bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="Flow_059evyf_di" bpmnElement="Flow_RejectRequest">
+                <di:waypoint x="890" y="499"/>
+                <di:waypoint x="890" y="424"/>
+                <di:waypoint x="1330" y="424"/>
+                <bpmndi:BPMNLabel>
+                    <dc:Bounds x="956" y="397" width="76" height="14"/>
+                </bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="Flow_0vz48wh_di" bpmnElement="Flow_0vz48wh">
+                <di:waypoint x="1430" y="424"/>
+                <di:waypoint x="1842" y="424"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="Flow_0slaldn_di" bpmnElement="Flow_UpdateProductPrice">
+                <di:waypoint x="1140" y="659"/>
+                <di:waypoint x="1140" y="714"/>
+                <di:waypoint x="1330" y="714"/>
+                <bpmndi:BPMNLabel>
+                    <dc:Bounds x="1181" y="684" width="77" height="27"/>
+                </bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="Flow_1g1iqd0_di" bpmnElement="Flow_NotifyRequesterApproval">
+                <di:waypoint x="1140" y="609"/>
+                <di:waypoint x="1140" y="554"/>
+                <di:waypoint x="1330" y="554"/>
+                <bpmndi:BPMNLabel>
+                    <dc:Bounds x="1189" y="516" width="83" height="27"/>
+                </bpmndi:BPMNLabel>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="Flow_0zclve3_di" bpmnElement="Flow_0zclve3">
+                <di:waypoint x="1430" y="554"/>
+                <di:waypoint x="1660" y="554"/>
+                <di:waypoint x="1660" y="609"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge id="Flow_1nmdyag_di" bpmnElement="Flow_1nmdyag">
+                <di:waypoint x="1685" y="634"/>
+                <di:waypoint x="1842" y="634"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNShape id="DataStoreReference_1550gh3_di" bpmnElement="DataStoreReference_1550gh3">
+                <dc:Bounds x="1355" y="955" width="50" height="50"/>
+                <bpmndi:BPMNLabel>
+                    <dc:Bounds x="1342" y="1012" width="76" height="27"/>
+                </bpmndi:BPMNLabel>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="DataOutputAssociation_0xxim8l_di" bpmnElement="DataOutputAssociation_0xxim8l">
+                <di:waypoint x="1380" y="754"/>
+                <di:waypoint x="1380" y="955"/>
+            </bpmndi:BPMNEdge>
+        </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+</bpmn:definitions>
