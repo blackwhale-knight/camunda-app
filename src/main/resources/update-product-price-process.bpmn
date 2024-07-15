@@ -23,7 +23,7 @@
                 <bpmn:flowNodeRef>Gateway_ApproveReject</bpmn:flowNodeRef>
                 <bpmn:flowNodeRef>SendTask_NotifyRequesterRejection</bpmn:flowNodeRef>
                 <bpmn:flowNodeRef>Gateway_0fairul</bpmn:flowNodeRef>
-                <bpmn:flowNodeRef>SendTask_NofityRequesterApproval</bpmn:flowNodeRef>
+                <bpmn:flowNodeRef>SendTask_NotifyRequesterApproval</bpmn:flowNodeRef>
                 <bpmn:flowNodeRef>ServiceTask_UpdateProductPrice</bpmn:flowNodeRef>
                 <bpmn:flowNodeRef>Gateway_130k0ci</bpmn:flowNodeRef>
                 <bpmn:flowNodeRef>EndEvent_Rejection</bpmn:flowNodeRef>
@@ -78,7 +78,7 @@
             <bpmn:outgoing>Flow_UpdateProductPrice</bpmn:outgoing>
             <bpmn:outgoing>Flow_NotifyRequesterApproval</bpmn:outgoing>
         </bpmn:parallelGateway>
-        <bpmn:sendTask id="SendTask_NofityRequesterApproval" name="Notify Requester Approval">
+        <bpmn:sendTask id="SendTask_NotifyRequesterApproval" name="Notify Requester Approval">
             <bpmn:extensionElements>
                 <zeebe:taskDefinition type="notifyRequesterApproval"/>
                 <zeebe:ioMapping>
@@ -125,8 +125,8 @@
         <bpmn:sequenceFlow id="Flow_UpdateProductPrice" name="Update Product Price" sourceRef="Gateway_0fairul"
                            targetRef="ServiceTask_UpdateProductPrice"/>
         <bpmn:sequenceFlow id="Flow_NotifyRequesterApproval" name="Notify Requester Approval"
-                           sourceRef="Gateway_0fairul" targetRef="SendTask_NofityRequesterApproval"/>
-        <bpmn:sequenceFlow id="Flow_0zclve3" sourceRef="SendTask_NofityRequesterApproval" targetRef="Gateway_130k0ci"/>
+                           sourceRef="Gateway_0fairul" targetRef="SendTask_NotifyRequesterApproval"/>
+        <bpmn:sequenceFlow id="Flow_0zclve3" sourceRef="SendTask_NotifyRequesterApproval" targetRef="Gateway_130k0ci"/>
         <bpmn:parallelGateway id="Gateway_130k0ci">
             <bpmn:incoming>Flow_0zclve3</bpmn:incoming>
             <bpmn:incoming>Flow_02tqstd</bpmn:incoming>
@@ -178,7 +178,7 @@
             <bpmndi:BPMNShape id="Gateway_0fairul_di" bpmnElement="Gateway_0fairul">
                 <dc:Bounds x="1115" y="609" width="50" height="50"/>
             </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape id="Activity_1in9no7_di" bpmnElement="SendTask_NofityRequesterApproval">
+            <bpmndi:BPMNShape id="Activity_1in9no7_di" bpmnElement="SendTask_NotifyRequesterApproval">
                 <dc:Bounds x="1330" y="514" width="100" height="80"/>
                 <bpmndi:BPMNLabel/>
             </bpmndi:BPMNShape>
