@@ -43,13 +43,15 @@ public class TaskService {
         return taskResponse;
     }
 
-    public List<TaskSearchResponse> searchTasks(String assignee, String taskName) {
+    public List<TaskSearchResponse> searchTasks(String assignee, String taskName, String processId) {
         List<TaskSearchResponse> tasks = new ArrayList<>();
         try {
             tasks = taskApi.searchTasks(
                     new TaskSearchRequest()
                             .state(TaskSearchRequest.StateEnum.CREATED)
-                            .taskDefinitionId(taskName), getTasklistAuthTokenHeader()
+                            .taskDefinitionId(taskName)
+                            .processInstanceKey(processId)
+                    , getTasklistAuthTokenHeader()
             ).stream().filter(
                     task -> {
                         assert task.getAssignee() != null;

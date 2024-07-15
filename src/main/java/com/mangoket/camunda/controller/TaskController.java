@@ -24,8 +24,12 @@ public class TaskController {
     }
 
     @GetMapping("/tasks/search")
-    public List<TaskSearchResponse> searchTasks(@RequestParam String assignee, @Nullable String taskName) {
-        return taskService.searchTasks(assignee, taskName);
+    public List<TaskSearchResponse> searchTasks(
+            @RequestParam String assignee,
+            @Nullable String taskName,
+            @Nullable String processId
+    ) {
+        return taskService.searchTasks(assignee, taskName, processId);
     }
 
     @PatchMapping("/tasks/{taskId}")
