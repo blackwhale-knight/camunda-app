@@ -1,14 +1,19 @@
 package com.mangoket.camunda.controller.request.process;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Valid
 public class UpdateProductPriceProcessRequest extends ProcessRequest {
-    @NonNull
+    @NotBlank(message = "product id is required")
     private String productId;
-    private double newSalePrice;
-    private double oldSalePrice;
+    @NotNull(message = "new sale price is required")
+    private Double newSalePrice;
+    @NotNull(message = "old sale price is required")
+    private Double oldSalePrice;
 }

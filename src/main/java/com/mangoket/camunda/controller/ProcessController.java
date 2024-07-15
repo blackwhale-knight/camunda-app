@@ -1,17 +1,21 @@
 package com.mangoket.camunda.controller;
 
-import com.mangoket.camunda.controller.request.process.UpdateProductPriceProcessRequest;
 import com.mangoket.camunda.controller.helper.ProcessVariablesAssembler;
+import com.mangoket.camunda.controller.request.process.UpdateProductPriceProcessRequest;
 import com.mangoket.camunda.service.ProcessService;
 import io.camunda.zeebe.client.api.response.ProcessInstanceEvent;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
 @RestController
+@RequestMapping("/processes")
 public class ProcessController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProcessController.class);
@@ -19,14 +23,20 @@ public class ProcessController {
     @Autowired
     private ProcessService processService;
 
-    @PostMapping("/processes/update-product-price")
-    public long createUpdateProductPriceProcess(@RequestBody UpdateProductPriceProcessRequest request) {
+    @PostMapping("/update-product-price")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Long> createUpdateProductPriceProcess(@Valid @RequestBody UpdateProductPriceProcessRequest request) {
         String processName = request.getProcessType().getProcessName();
         Map<String, Object> processVariables
                 = ProcessVariablesAssembler.assembleUpdateProductPriceProcessVariables(request);
 
         ProcessInstanceEvent processInstance = processService.createProcessInstance(processName, processVariables);
-        return processInstance.getProcessInstanceKey();
+
+        return ResponseEntity.ok(processInstance.getProcessInstanceKey());
+
+//        ProcessResponse response = new ProcessResponse();
+//        response.setId(processInstance.getProcessInstanceKey());
+//        return response;
     }
 
 //    @GetMapping("/processes/{processId}")
