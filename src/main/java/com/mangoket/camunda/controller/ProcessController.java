@@ -40,17 +40,13 @@ public class ProcessController {
         response.setSourceService(request.getSourceService());
 
         return ResponseEntity.ok(response);
-
-
-//        return response;
     }
 
-//    @GetMapping("/processes/{processId}")
-//    public ProcessResponse getProcess(@PathVariable long processId) throws OperateException {
-//        ProcessInstance processInstance = camundaOperateClient.getProcessInstance(processId);
-//        System.out.println(processInstance.getState());
-//        return new ProcessResponse();
-//    }
-
+    @GetMapping("/{processId}")
+    public ResponseEntity<ProcessResponse> getProcess(@PathVariable long processId) {
+        ProcessResponse response = new ProcessResponse();
+        response.setId(processId);
+        return ResponseEntity.ok(response);
+    }
 
 }

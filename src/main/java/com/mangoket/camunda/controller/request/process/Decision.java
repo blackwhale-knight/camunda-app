@@ -6,5 +6,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Decision {
-    private DecisionType decision;
+    private DecisionType decisionType;
 }
