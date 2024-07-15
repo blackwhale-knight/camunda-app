@@ -2,6 +2,7 @@ package com.mangoket.camunda.controller;
 
 import com.mangoket.camunda.controller.helper.ProcessVariablesAssembler;
 import com.mangoket.camunda.controller.request.process.UpdateProductPriceProcessRequest;
+import com.mangoket.camunda.controller.response.ProcessResponse;
 import com.mangoket.camunda.service.ProcessService;
 import io.camunda.zeebe.client.api.response.ProcessInstanceEvent;
 import jakarta.validation.Valid;
@@ -25,17 +26,22 @@ public class ProcessController {
 
     @PostMapping("/update-product-price")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Long> createUpdateProductPriceProcess(@Valid @RequestBody UpdateProductPriceProcessRequest request) {
+    public ResponseEntity<ProcessResponse> createUpdateProductPriceProcess(@Valid @RequestBody UpdateProductPriceProcessRequest request) {
         String processName = request.getProcessType().getProcessName();
         Map<String, Object> processVariables
                 = ProcessVariablesAssembler.assembleUpdateProductPriceProcessVariables(request);
 
         ProcessInstanceEvent processInstance = processService.createProcessInstance(processName, processVariables);
 
-        return ResponseEntity.ok(processInstance.getProcessInstanceKey());
+        ProcessResponse response = new ProcessResponse();
+        response.setId(processInstance.getProcessInstanceKey());
+        response.setName(processName);
+        response.setRequester(request.getRequester());
+        response.setSourceService(request.getSourceService());
 
-//        ProcessResponse response = new ProcessResponse();
-//        response.setId(processInstance.getProcessInstanceKey());
+        return ResponseEntity.ok(response);
+
+
 //        return response;
     }
 
