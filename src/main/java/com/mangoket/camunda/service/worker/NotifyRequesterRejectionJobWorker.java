@@ -6,7 +6,9 @@ import io.camunda.zeebe.client.api.worker.JobClient;
 import io.camunda.zeebe.spring.client.annotation.JobWorker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 public class NotifyRequesterRejectionJobWorker extends NotifyRequesterJobWorker {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NotifyRequesterRejectionJobWorker.class);
