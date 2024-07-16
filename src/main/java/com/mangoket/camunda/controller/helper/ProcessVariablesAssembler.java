@@ -1,7 +1,7 @@
 package com.mangoket.camunda.controller.helper;
 
 
-import com.mangoket.camunda.controller.request.process.UpdateProductPriceProcessRequest;
+import com.mangoket.camunda.controller.request.UpdateProductPriceProcessRequest;
 
 import java.util.HashMap;
 import java.util.Map;

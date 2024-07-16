@@ -1,4 +1,4 @@
-package com.mangoket.camunda.controller.request.process;
+package com.mangoket.camunda.controller.request;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;

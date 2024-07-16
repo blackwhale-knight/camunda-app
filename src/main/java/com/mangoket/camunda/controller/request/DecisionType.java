@@ -1,15 +1,16 @@
-package com.mangoket.camunda.model;
+package com.mangoket.camunda.controller.request;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 @Getter
-public enum SourceService {
-    MANGO("MANGO");
+public enum DecisionType {
+    APPROVED("approved"),
+    REJECTED("rejected");
 
     private final String value;
 
-    SourceService(String value) {
+    DecisionType(String value) {
         this.value = value;
     }
 

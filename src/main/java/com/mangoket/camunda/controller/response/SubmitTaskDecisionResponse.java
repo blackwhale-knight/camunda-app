@@ -1,6 +1,6 @@
 package com.mangoket.camunda.controller.response;
 
-import com.mangoket.camunda.controller.request.process.Decision;
+import com.mangoket.camunda.controller.request.Decision;
 import lombok.Getter;
 import lombok.Setter;
 

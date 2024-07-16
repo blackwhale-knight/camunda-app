@@ -1,7 +1,7 @@
 package com.mangoket.camunda.controller;
 
 import com.mangoket.camunda.controller.helper.ProcessVariablesAssembler;
-import com.mangoket.camunda.controller.request.process.UpdateProductPriceProcessRequest;
+import com.mangoket.camunda.controller.request.UpdateProductPriceProcessRequest;
 import com.mangoket.camunda.controller.response.ProcessResponse;
 import com.mangoket.camunda.service.ProcessService;
 import io.camunda.zeebe.client.api.response.ProcessInstanceEvent;
@@ -35,7 +35,7 @@ public class ProcessController {
 
         ProcessResponse response = new ProcessResponse();
         response.setId(processInstance.getProcessInstanceKey());
-        response.setName(processName);
+        response.setProcessType(request.getProcessType());
         response.setRequester(request.getRequester());
         response.setSourceService(request.getSourceService());
 

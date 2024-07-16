@@ -1,5 +1,6 @@
 package com.mangoket.camunda.controller.response;
 
+import com.mangoket.camunda.controller.request.ProcessType;
 import com.mangoket.camunda.model.ProcessState;
 import com.mangoket.camunda.model.SourceService;
 import jakarta.validation.constraints.NotBlank;
@@ -14,7 +15,7 @@ public class ProcessResponse {
     private long id;
 
     @NotBlank
-    private String name;
+    private ProcessType processType;
 
     @NotBlank
     private String requester;

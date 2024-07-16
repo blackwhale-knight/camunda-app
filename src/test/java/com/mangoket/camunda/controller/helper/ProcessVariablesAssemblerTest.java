@@ -1,11 +1,11 @@
 package com.mangoket.camunda.controller.helper;
 
-import com.mangoket.camunda.controller.request.process.UpdateProductPriceProcessRequest;
+import com.mangoket.camunda.controller.request.UpdateProductPriceProcessRequest;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ProcessVariablesAssemblerTest {
     private static final String REQUESTER_FIELD = "requester";

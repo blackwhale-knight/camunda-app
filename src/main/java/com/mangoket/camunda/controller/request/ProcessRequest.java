@@ -1,4 +1,4 @@
-package com.mangoket.camunda.controller.request.process;
+package com.mangoket.camunda.controller.request;
 
 import com.mangoket.camunda.model.SourceService;
 import jakarta.validation.Valid;
