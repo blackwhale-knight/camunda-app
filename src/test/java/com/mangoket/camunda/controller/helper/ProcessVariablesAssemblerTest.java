@@ -26,7 +26,9 @@ class ProcessVariablesAssemblerTest {
         request.setNewSalePrice(TEST_NEW_SALE_PRICE);
         request.setOldSalePrice(TEST_OLD_SALE_PRICE);
 
-        Map<String, Object> ret = ProcessVariablesAssembler.assembleUpdateProductPriceProcessVariables(request);
+        ProcessVariablesAssembler processVariablesAssembler = new ProcessVariablesAssembler();
+
+        Map<String, Object> ret = processVariablesAssembler.assembleUpdateProductPriceProcessVariables(request);
 
         assertEquals(TEST_REQUESTER, ret.get(REQUESTER_FIELD));
         assertEquals(TEST_PRODUCT_ID, ret.get(PRODUCT_ID_FIELD));

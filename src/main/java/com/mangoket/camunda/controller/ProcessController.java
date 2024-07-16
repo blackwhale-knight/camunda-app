@@ -24,12 +24,15 @@ public class ProcessController {
     @Autowired
     private ProcessService processService;
 
+    @Autowired
+    private ProcessVariablesAssembler processVariablesAssembler;
+
     @PostMapping("/update-product-price")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ProcessResponse> createUpdateProductPriceProcess(@Valid @RequestBody UpdateProductPriceProcessRequest request) {
         String processName = request.getProcessType().getProcessName();
         Map<String, Object> processVariables
-                = ProcessVariablesAssembler.assembleUpdateProductPriceProcessVariables(request);
+                = processVariablesAssembler.assembleUpdateProductPriceProcessVariables(request);
 
         ProcessInstanceEvent processInstance = processService.createProcessInstance(processName, processVariables);
 
