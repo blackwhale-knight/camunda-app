@@ -1,7 +1,7 @@
 package com.mangoket.camunda.controller;
 
 import com.example.tasklist.model.TaskSearchResponse;
-import com.mangoket.camunda.controller.converter.TaskResponseConverter;
+import com.mangoket.camunda.controller.helper.TaskResponseComposer;
 import com.mangoket.camunda.controller.request.Decision;
 import com.mangoket.camunda.controller.response.SubmitTaskDecisionResponse;
 import com.mangoket.camunda.controller.response.TaskResponse;
@@ -23,11 +23,11 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
     @Autowired
-    private TaskResponseConverter taskResponseConverter;
+    private TaskResponseComposer taskResponseComposer;
     @GetMapping("/tasks/{taskId}")
     public ResponseEntity<TaskResponse> getTask(@PathVariable String taskId) {
         com.example.tasklist.model.TaskResponse taskResponseFromCamunda = taskService.getTask(taskId);
-        TaskResponse taskResponse = taskResponseConverter.toTaskResponse(taskResponseFromCamunda);
+        TaskResponse taskResponse = taskResponseComposer.composeTaskResponse(taskResponseFromCamunda);
         return ResponseEntity.ok(taskResponse);
     }
 
@@ -39,7 +39,7 @@ public class TaskController {
     ) {
         List<TaskSearchResponse> taskSearchResponses = taskService.searchTasks(assignee, taskName, processId);
         List<TaskResponse> responses = taskSearchResponses.stream()
-                .map(resp -> taskResponseConverter.toTaskResponse(resp))
+                .map(resp -> taskResponseComposer.composeTaskResponse(resp))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(responses);
     }

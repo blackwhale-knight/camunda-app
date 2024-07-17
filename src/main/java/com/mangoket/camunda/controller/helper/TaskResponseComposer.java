@@ -1,12 +1,12 @@
-package com.mangoket.camunda.controller.converter;
+package com.mangoket.camunda.controller.helper;
 
 import com.mangoket.camunda.controller.response.TaskResponse;
 import com.mangoket.camunda.model.TaskState;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TaskResponseConverter {
-    public TaskResponse toTaskResponse(com.example.tasklist.model.TaskResponse src) {
+public class TaskResponseComposer {
+    public TaskResponse composeTaskResponse(com.example.tasklist.model.TaskResponse src) {
         TaskResponse target = new TaskResponse();
         target.setTaskId(src.getId());
         target.setName(src.getName());
@@ -20,7 +20,7 @@ public class TaskResponseConverter {
         return target;
     }
 
-    public TaskResponse toTaskResponse(com.example.tasklist.model.TaskSearchResponse src) {
+    public TaskResponse composeTaskResponse(com.example.tasklist.model.TaskSearchResponse src) {
         TaskResponse target = new TaskResponse();
         target.setTaskId(src.getId());
         target.setName(src.getName());
