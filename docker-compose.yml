@@ -1,0 +1,14 @@
+version: '3.8'  # Use the appropriate Docker Compose version
+
+services:
+  camunda-app:
+    container_name: camunda-app
+    image: mangoket/camunda-app
+    ports:
+      - "8080:8080"
+    networks:
+      - camunda-network
+
+networks:
+  camunda-network:
+    driver: bridge
