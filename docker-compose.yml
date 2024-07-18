@@ -5,7 +5,7 @@ services:
     container_name: camunda-app
     image: mangoket/camunda-app
     ports:
-      - "8080:8080"
+      - "9004:9004"
     networks:
       - camunda-network
 

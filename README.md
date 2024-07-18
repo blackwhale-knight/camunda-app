@@ -26,14 +26,18 @@ java -jar target/camunda-app-1.0-SNAPSHOT.jar
 docker build -t mangoket/camunda-app .
 ```
 
-### Maven Docker Build
-
-```shell
-./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=mangoket/camunda-app
-```
-
 ### Docker Run
 
+#### Use `docker-compose.yml`
+
 ```shell
-docker run -p -d 8080:8080 -t mangoket/camunda-app
+docker-compose up -d
 ```
+
+#### Or
+
+```shell
+docker run -d -p 9004:9004 -t mangoket/camunda-app
+```
+
+
