@@ -12,10 +12,10 @@
 	</parent>
 
 	<groupId>com.mangoket.camunda</groupId>
-	<artifactId>CamundaApp</artifactId>
+	<artifactId>camunda-app</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
-	<name>CamundaApp</name>
+	<name>camunda-app</name>
 
 	<description>Camunda workflow management application</description>
 
