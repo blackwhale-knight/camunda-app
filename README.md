@@ -40,4 +40,12 @@ docker-compose up -d
 docker run -d -p 9004:9004 -t mangoket/camunda-app
 ```
 
+## Deploy
 
+### Stage
+
+1. `ssh ubuntu@stage.mangoket.us`
+2. `cd /srv/source/`
+3. `./buildCamundaApp.sh`
+4. `./deployCamundaApp.sh`
+5. check docker status: `docker ps`
