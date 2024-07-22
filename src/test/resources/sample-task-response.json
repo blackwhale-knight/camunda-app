@@ -1,0 +1,24 @@
+{
+  "id": "6755399441063513",
+  "name": "Review Request",
+  "taskDefinitionId": "UserTask_ReviewRequest",
+  "processName": "Update Product Price",
+  "creationDate": "2024-07-10T09:12:07.914+0000",
+  "completionDate": "2024-07-10T09:34:12.988+0000",
+  "assignee": "cody.huang@mangoket.com",
+  "taskState": "COMPLETED",
+  "formKey": "2251799813686179",
+  "formId": "Form_ReviewRequest",
+  "formVersion": 1,
+  "isFormEmbedded": false,
+  "processDefinitionKey": "2251799813686180",
+  "processInstanceKey": "6755399441063499",
+  "tenantId": "<default>",
+  "dueDate": null,
+  "followUpDate": null,
+  "candidateGroups": null,
+  "candidateUsers": [
+    "cody.huang@mangoket.com"
+  ],
+  "implementation": "JOB_WORKER"
+}

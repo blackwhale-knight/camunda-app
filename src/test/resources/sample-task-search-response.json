@@ -1,0 +1,31 @@
+{
+  "id": "4503599630167264",
+  "name": "Review Request",
+  "taskDefinitionId": "UserTask_ReviewRequest",
+  "processName": "Update Product Price",
+  "creationDate": "2024-07-22T01:41:16.795+0000",
+  "completionDate": null,
+  "assignee": "cody.huang@mangoket.com",
+  "taskState": "CREATED",
+  "sortValues": [
+    "1721612476795",
+    "4503599630167264"
+  ],
+  "isFirst": true,
+  "formKey": "2251799813686179",
+  "formId": "Form_ReviewRequest",
+  "formVersion": 1,
+  "isFormEmbedded": false,
+  "processDefinitionKey": "2251799814539105",
+  "processInstanceKey": "4503599630167250",
+  "tenantId": "<default>",
+  "dueDate": null,
+  "followUpDate": null,
+  "candidateGroups": null,
+  "candidateUsers": [
+    "cody.huang@mangoket.com"
+  ],
+  "variables": [],
+  "context": null,
+  "implementation": "ZEEBE_USER_TASK"
+}
