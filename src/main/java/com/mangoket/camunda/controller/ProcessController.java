@@ -1,7 +1,6 @@
 package com.mangoket.camunda.controller;
 
-import com.mangoket.camunda.controller.helper.ProcessVariablesAssembler;
-import com.mangoket.camunda.controller.request.UpdateProductPriceProcessRequest;
+import com.mangoket.camunda.controller.request.ProcessRequest;
 import com.mangoket.camunda.controller.response.ProcessResponse;
 import com.mangoket.camunda.service.ProcessService;
 import io.camunda.zeebe.client.api.response.ProcessInstanceEvent;
@@ -13,10 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 
 @RestController
-@RequestMapping("/processes")
 public class ProcessController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProcessController.class);
@@ -24,17 +21,13 @@ public class ProcessController {
     @Autowired
     private ProcessService processService;
 
-    @Autowired
-    private ProcessVariablesAssembler processVariablesAssembler;
-
-    @PostMapping("/update-product-price")
+    @PostMapping("/processes")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<ProcessResponse> createUpdateProductPriceProcess(@Valid @RequestBody UpdateProductPriceProcessRequest request) {
+    public ResponseEntity<ProcessResponse> createProcess(@Valid @RequestBody ProcessRequest request) {
         String processName = request.getProcessType().getProcessName();
-        Map<String, Object> processVariables
-                = processVariablesAssembler.assembleUpdateProductPriceProcessVariables(request);
 
-        ProcessInstanceEvent processInstance = processService.createProcessInstance(processName, processVariables);
+        ProcessInstanceEvent processInstance = processService.createProcessInstance(processName, request);
+        LOGGER.info("Create a new process: {}. request id: {}", processName, processInstance.getProcessInstanceKey());
 
         ProcessResponse response = new ProcessResponse();
         response.setId(processInstance.getProcessInstanceKey());
@@ -45,7 +38,7 @@ public class ProcessController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/{processId}")
+    @GetMapping("processes/{processId}")
     public ResponseEntity<ProcessResponse> getProcess(@PathVariable long processId) {
         ProcessResponse response = new ProcessResponse();
         response.setId(processId);
