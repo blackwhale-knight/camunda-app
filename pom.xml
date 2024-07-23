@@ -58,6 +58,14 @@
 			<name>Camunda Identity</name>
 			<url>https://artifacts.camunda.com/artifactory/camunda-identity/</url>
 		</repository>
+		<repository>
+			<id>lib</id>
+			<url>file://${project.basedir}/lib</url>
+		</repository>
+		<repository>
+			<id>grails</id>
+			<url>https://repo.grails.org/grails/core</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
@@ -127,6 +135,19 @@
 			<groupId>org.openapitools</groupId>
 			<artifactId>jackson-databind-nullable</artifactId>
 			<version>0.2.6</version>
+		</dependency>
+		<!-- for rabbitMQ -->
+		<dependency>
+			<groupId>com.rabbitmq</groupId>
+			<artifactId>amqp-client</artifactId>
+			<version>5.20.0</version>
+		</dependency>
+		<!-- for groovy -->
+		<dependency>
+			<groupId>org.apache.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>4.0.15</version>
+			<type>pom</type>
 		</dependency>
 		<!-- for unit test -->
 		<dependency>
