@@ -1,0 +1,3 @@
+[submodule "reference/git-sub-module"]
+	path = reference/git-sub-module
+	url = http://git.mangoket.us/IT/mango5.git
