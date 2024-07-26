@@ -6,16 +6,32 @@ This is a workflow management application which integrated with Camunda platform
 
 ## Local Development
 
-### Maven Build & Package
+### Maven
+
+#### Clean & Package
 
 ```shell
-./mvnw clean package
+mvn clean package
 ```
 
-### Run
+#### Run
 
 ```shell
 java -jar target/camunda-app-1.0-SNAPSHOT.jar
+```
+
+### Gradle
+
+#### Clean & Build
+
+```shell
+gradle clean build
+```
+
+#### Run
+
+```shell
+java -jar build/libs/camunda-app-1.0-SNAPSHOT.jar
 ```
 
 ## Docker
