@@ -72,10 +72,6 @@ repositories {
         url = 'https://artifacts.camunda.com/artifactory/camunda-identity/'
     }
     maven {
-        name = 'lib'
-        url = uri('lib')
-    }
-    maven {
         name = 'grails'
         url = 'https://repo.grails.org/grails/core'
     }
@@ -85,7 +81,6 @@ repositories {
 springBoot {
     mainClass = 'com.mangoket.camunda.CamundaApp' // Replace with your main application class
 }
-
 
 dependencies {
     // for REST api
@@ -123,8 +118,9 @@ dependencies {
     // for RabbitMQ
     implementation 'com.rabbitmq:amqp-client:5.20.0'
 
-    // for Groovy
-    implementation 'org.apache.groovy:groovy-all:4.0.15'
+    // for mango5 pkg-core & Groovy
+    implementation 'org.codehaus.groovy:groovy-all:2.5.23'
+    implementation project(':mangoket-core')
 
     // for unit test
     testImplementation 'junit:junit'

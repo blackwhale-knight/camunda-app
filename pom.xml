@@ -59,10 +59,6 @@
 			<url>https://artifacts.camunda.com/artifactory/camunda-identity/</url>
 		</repository>
 		<repository>
-			<id>lib</id>
-			<url>file://${project.basedir}/lib</url>
-		</repository>
-		<repository>
 			<id>grails</id>
 			<url>https://repo.grails.org/grails/core</url>
 		</repository>
