@@ -8,6 +8,8 @@ services:
       - "9004:9004"
     networks:
       - camunda-network
+    volumes:
+      - /srv/docker-logs/$LOG_FOLDER:/logs
 
 networks:
   camunda-network:
