@@ -6,4 +6,4 @@
 
 rootProject.name = 'camunda-app'
 include ':mangoket-core'
-project(":mangoket-core").projectDir = file("../mangoket-core")
+project(":mangoket-core").projectDir = file("mangoket-core")
