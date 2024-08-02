@@ -1,10 +1,10 @@
 <configuration>
     <!-- Define the root level and appender -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/logs/camunda-app.log</file>
+        <file>logs/camunda-app.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- Daily rollover -->
-            <fileNamePattern>/logs/camunda-app.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>logs/camunda-app.%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- Keep 30 days' worth of history -->
         </rollingPolicy>
 

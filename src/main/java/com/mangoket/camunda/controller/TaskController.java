@@ -27,6 +27,8 @@ public class TaskController {
     @GetMapping("/tasks/{taskId}")
     public ResponseEntity<TaskResponse> getTask(@PathVariable String taskId) {
         com.example.tasklist.model.TaskResponse taskResponseFromCamunda = taskService.getTask(taskId);
+        LOGGER.info("Get task: id={}", taskId);
+
         TaskResponse taskResponse = taskResponseComposer.composeTaskResponse(taskResponseFromCamunda);
         return ResponseEntity.ok(taskResponse);
     }
@@ -38,6 +40,8 @@ public class TaskController {
             @Nullable String processId
     ) {
         List<TaskSearchResponse> taskSearchResponses = taskService.searchTasks(assignee, taskName, processId);
+        LOGGER.info("Search tasks: assignee={}, taskName={}, processId={}", assignee, taskName, processId);
+
         List<TaskResponse> responses = taskSearchResponses.stream()
                 .map(resp -> taskResponseComposer.composeTaskResponse(resp))
                 .collect(Collectors.toList());
@@ -48,6 +52,7 @@ public class TaskController {
     public ResponseEntity<SubmitTaskDecisionResponse> submitTaskDecision(@PathVariable String taskId, @RequestBody Decision decision) {
         String decisionValue = decision.getDecisionType().getValue();
         taskService.submitTaskDecision(taskId, decisionValue);
+        LOGGER.info("Submit task decision: taskId={}, decision={}", taskId, decision.getDecisionType().getValue());
 
         SubmitTaskDecisionResponse response = new SubmitTaskDecisionResponse();
         response.setTaskId(taskId);
