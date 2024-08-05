@@ -23,4 +23,7 @@ public class ProcessRequest {
 
     @NotNull(message = "the source service is required")
     private SourceService sourceService;
+
+    @NotNull(message = "the assignee is required")
+    private String assignee;
 }
