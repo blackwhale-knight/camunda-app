@@ -5,12 +5,17 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import org.apache.commons.lang3.SerializationUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmitLogTopic {
+@Service
+public class RabbitMQService implements NotificationService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RabbitMQService.class);
 
     private static final String HOST_NAME = "localhost";
     private static final String EXCHANGE_NAME = "message";
@@ -21,7 +26,8 @@ public class EmitLogTopic {
     private static final int PORT_NUMBER = 5672;
     private static final String CONNECTION = "mango5";
 
-    public static void main(String[] argv) throws Exception {
+    @Override
+    public void sendNotification(Notification notification) {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(HOST_NAME);
         factory.setUsername(USER_NAME);
@@ -38,11 +44,13 @@ public class EmitLogTopic {
             mailTO.setSubject("test message from camunda");
             mailTO.setBodyContent("test message from camunda");
             mailTO.setTo(to);
-            
+
             ByteBuffer requestBuffer = ByteBuffer.wrap(SerializationUtils.serialize(mailTO));
 
             channel.basicPublish(EXCHANGE_NAME, ROUTING_KEY, null, requestBuffer.array());
             System.out.println(" [x] Sent '" + ROUTING_KEY + "':'" + mailTO + "'");
+        } catch (Exception e) {
+            LOGGER.error(e.getLocalizedMessage());
         }
     }
 }
