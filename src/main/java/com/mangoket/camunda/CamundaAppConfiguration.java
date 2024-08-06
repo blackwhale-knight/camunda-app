@@ -18,7 +18,7 @@ public class CamundaAppConfiguration {
     private final Config config;
 
     public CamundaAppConfiguration() {
-        this(ConfigFactory.load("config/defaults.conf"));
+        this(ConfigFactory.load("application.conf"));
     }
 
     private CamundaAppConfiguration(@Nonnull Config config) {

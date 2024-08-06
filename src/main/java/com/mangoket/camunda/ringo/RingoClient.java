@@ -20,7 +20,6 @@ public class RingoClient {
 
         JwtClient jwtClient = new JwtClient();
         String accessToken = jwtClient.getAccessToken("ringo");
-        System.out.println(accessToken);
 
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
