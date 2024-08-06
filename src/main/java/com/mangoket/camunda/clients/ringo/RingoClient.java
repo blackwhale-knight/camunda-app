@@ -1,7 +1,7 @@
-package com.mangoket.camunda.ringo;
+package com.mangoket.camunda.clients.ringo;
 
 import com.mangoket.camunda.CamundaAppConfiguration;
-import com.mangoket.camunda.jwt.JwtClient;
+import com.mangoket.camunda.clients.jwt.JwtClient;
 import okhttp3.*;
 
 import java.io.IOException;

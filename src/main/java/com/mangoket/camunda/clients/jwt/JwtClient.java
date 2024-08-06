@@ -1,4 +1,4 @@
-package com.mangoket.camunda.jwt;
+package com.mangoket.camunda.clients.jwt;
 
 import com.mangoket.camunda.CamundaAppConfiguration;
 import okhttp3.*;
