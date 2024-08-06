@@ -3,9 +3,12 @@ package com.mangoket.camunda.clients.ringo;
 import com.mangoket.camunda.CamundaAppConfiguration;
 import com.mangoket.camunda.clients.jwt.JwtClient;
 import okhttp3.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
+@Service
 public class RingoClient {
     private static final String APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded";
     private static final String CONTENT_TYPE = "Content-Type";
@@ -14,15 +17,17 @@ public class RingoClient {
     private static final String URL = "/shipment/getAllJITCustomerDemand";
     private static final String POST = "POST";
 
-    public static void main(String[] args) throws IOException {
+    @Autowired
+    JwtClient jwtClient;
+
+    public void getCusterDemands() {
         CamundaAppConfiguration config = new CamundaAppConfiguration().getConfig("ringo");
         String host = config.getString(HOST);
 
-        JwtClient jwtClient = new JwtClient();
         String accessToken = jwtClient.getAccessToken("ringo");
 
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
+
         MediaType mediaType = MediaType.parse(APPLICATION_FORM_URLENCODED);
         RequestBody body = RequestBody.create("ym=202501", mediaType);
         Request request = new Request.Builder()
@@ -35,7 +40,14 @@ public class RingoClient {
             assert response.body() != null;
             String responseStr = response.body().string();
             System.out.println(responseStr);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to get customer demands", e);
         }
-
     }
+
+    public boolean getAutoAdjustResult(String shipmentId) {
+
+        return true;
+    }
+
 }

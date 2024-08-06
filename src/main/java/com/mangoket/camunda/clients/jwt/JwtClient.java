@@ -3,6 +3,7 @@ package com.mangoket.camunda.clients.jwt;
 import com.mangoket.camunda.CamundaAppConfiguration;
 import okhttp3.*;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -18,30 +19,40 @@ public class JwtClient {
     private static final String CONTENT_TYPE = "Content-Type";
     private static final String POST = "POST";
 
-    public String getAccessToken(String service) {
-        CamundaAppConfiguration config = new CamundaAppConfiguration().getConfig(service);
-        String refreshToken = config.getString(REFRESH_TOKEN);
-        String host = config.getString(HOST);
+    private final OkHttpClient client;
+    private final CamundaAppConfiguration config;
 
-        OkHttpClient client = new OkHttpClient().newBuilder().build();
+    @Autowired
+    public JwtClient(OkHttpClient client, CamundaAppConfiguration config) {
+        this.client = client;
+        this.config = config;
+    }
+
+    public String getAccessToken(String service) {
+        String refreshToken = config.getConfig(service).getString(REFRESH_TOKEN);
+        String host = config.getConfig(service).getString(HOST);
+
         MediaType mediaType = MediaType.parse(APPLICATION_FORM_URLENCODED);
         RequestBody requestBody = RequestBody.create(
-                String.format("%s=%s&%s=%s", GRANT_TYPE, REFRESH_TOKEN, REFRESH_TOKEN, refreshToken)
-                , mediaType
+                String.format("%s=%s&%s=%s", GRANT_TYPE, REFRESH_TOKEN, REFRESH_TOKEN, refreshToken),
+                mediaType
         );
 
         Request request = new Request.Builder()
-                .url(String.format("%s%s", host, OAUTH_ACCESS_TOKEN_URL))
+                .url(host + OAUTH_ACCESS_TOKEN_URL)
                 .method(POST, requestBody)
                 .addHeader(CONTENT_TYPE, APPLICATION_FORM_URLENCODED)
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
-            assert response.body() != null;
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected response code: " + response.code());
+            }
+
             JSONObject jsonObject = new JSONObject(response.body().string());
-            return jsonObject.get(ACCESS_TOKEN).toString();
+            return jsonObject.getString(ACCESS_TOKEN);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to obtain access token", e);
         }
     }
 }
