@@ -132,6 +132,16 @@ dependencies {
     // for configuration
     implementation group: 'com.typesafe', name: 'config', version: '1.4.2'
 
-    // for unit test
-    testImplementation 'junit:junit'
+    // for Spring Boot Starter Test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // for JUnit 5 (Jupiter)
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    // for Mockito
+    testImplementation 'org.mockito:mockito-core'
+    testImplementation 'org.mockito:mockito-junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
 }
