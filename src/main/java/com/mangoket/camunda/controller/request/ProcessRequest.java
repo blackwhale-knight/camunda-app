@@ -1,5 +1,6 @@
 package com.mangoket.camunda.controller.request;
 
+import com.mangoket.camunda.model.Role;
 import com.mangoket.camunda.model.SourceService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
@@ -24,6 +25,7 @@ public class ProcessRequest {
     @NotNull(message = "the source service is required")
     private SourceService sourceService;
 
-    @NotNull(message = "the assignee is required")
     private String assignee;
+
+    private Role[] candidateGroups;
 }
