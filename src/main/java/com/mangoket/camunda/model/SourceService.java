@@ -9,6 +9,7 @@ public enum SourceService {
     RINGO("RINGO", "ringo");
 
     private final String name;
+    @Getter
     private final String value;
 
     SourceService(String name, String value) {
@@ -19,11 +20,6 @@ public enum SourceService {
     @JsonValue
     public String getName() {
         return name;
-    }
-
-    @JsonValue
-    public String getValue() {
-        return value;
     }
 
     @Override
