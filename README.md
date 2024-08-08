@@ -4,6 +4,15 @@ This is a workflow management application which integrated with Camunda platform
 
 ---
 
+## Update Submodule
+
+```bash
+git submodule update --remote
+
+# or (with rebase)
+git submodule update --rebase --remote
+```
+
 ## Local Development
 
 ### Maven
