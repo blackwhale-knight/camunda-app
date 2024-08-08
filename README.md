@@ -6,28 +6,17 @@ This is a workflow management application which integrated with Camunda platform
 
 ## Update Submodule
 
-```bash
+```shell
 git submodule update --remote
+```
 
-# or (with rebase)
+### or (with rebase)
+
+```shell
 git submodule update --rebase --remote
 ```
 
 ## Local Development
-
-### Maven
-
-#### Clean & Package
-
-```shell
-mvn clean package
-```
-
-#### Run
-
-```shell
-java -jar target/camunda-app-1.0-SNAPSHOT.jar
-```
 
 ### Gradle
 
