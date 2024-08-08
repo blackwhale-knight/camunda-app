@@ -14,17 +14,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class TaskService {
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskService.class);
-
-    private static final String DECISION_FIELD_NAME = "decision";
 
     @Autowired
     private ZeebeClient zeebeClient;
@@ -66,9 +61,17 @@ public class TaskService {
         return tasks;
     }
 
-    public void submitTaskDecision(String taskId, String decisionValue) {
-        Map<String, Object> variables = new HashMap<>();
-        variables.put(DECISION_FIELD_NAME, decisionValue);
+    public void completeTask(String taskId, List<Variable> variableList) {
+        Map<String, Object> variables = Optional.ofNullable(variableList)
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .filter(Objects::nonNull)
+                .collect(
+                        Collectors.toMap(
+                                Variable::getName,
+                                Variable::getValue
+                        )
+                );
 
         try {
             zeebeClient.newUserTaskCompleteCommand(Long.parseLong(taskId))
@@ -77,6 +80,7 @@ public class TaskService {
                     .get();
         } catch (Exception e) {
             LOGGER.error(e.getLocalizedMessage());
+            throw new RuntimeException(e);
         }
     }
 

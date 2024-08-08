@@ -2,8 +2,7 @@ package com.mangoket.camunda.controller;
 
 import com.example.tasklist.model.TaskSearchResponse;
 import com.mangoket.camunda.controller.helper.TaskResponseComposer;
-import com.mangoket.camunda.controller.request.Decision;
-import com.mangoket.camunda.controller.response.SubmitTaskDecisionResponse;
+import com.mangoket.camunda.controller.response.CompleteTaskResponse;
 import com.mangoket.camunda.controller.response.TaskResponse;
 import com.mangoket.camunda.model.Variable;
 import com.mangoket.camunda.service.TaskService;
@@ -50,14 +49,14 @@ public class TaskController {
     }
 
     @PatchMapping("/tasks/{taskId}")
-    public ResponseEntity<SubmitTaskDecisionResponse> submitTaskDecision(@PathVariable String taskId, @RequestBody Decision decision) {
-        String decisionValue = decision.getDecisionType().getValue();
-        taskService.submitTaskDecision(taskId, decisionValue);
-        LOGGER.info("Submit task decision: taskId={}, decision={}", taskId, decision.getDecisionType().getValue());
+    public ResponseEntity<CompleteTaskResponse> completeTask(@PathVariable String taskId, @Nullable @RequestBody List<Variable> variableList) {
+        taskService.completeTask(taskId, variableList);
+        LOGGER.info("Complete task: taskId={}, with variables={}", taskId, variableList);
 
-        SubmitTaskDecisionResponse response = new SubmitTaskDecisionResponse();
+        CompleteTaskResponse response = new CompleteTaskResponse();
         response.setTaskId(taskId);
-        response.setDecision(decision);
+        response.setVariables(variableList);
+
         return ResponseEntity.ok(response);
     }
 
