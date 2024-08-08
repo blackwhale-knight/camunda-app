@@ -4,7 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum ProcessType {
-    UPDATE_PRODUCT_PRICE("Process_UpdateProductPrice");
+    UPDATE_PRODUCT_PRICE("Process_UpdateProductPrice"),
+    TEST("Process_Test");
 
     private final String processName;
 
