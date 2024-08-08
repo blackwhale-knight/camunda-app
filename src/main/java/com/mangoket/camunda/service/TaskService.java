@@ -5,6 +5,7 @@ import com.example.tasklist.api.TaskApi;
 import com.example.tasklist.model.TaskResponse;
 import com.example.tasklist.model.TaskSearchRequest;
 import com.example.tasklist.model.TaskSearchResponse;
+import com.mangoket.camunda.model.Variable;
 import io.camunda.common.auth.Authentication;
 import io.camunda.common.auth.Product;
 import io.camunda.zeebe.client.ZeebeClient;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskService {
@@ -76,6 +78,19 @@ public class TaskService {
         } catch (Exception e) {
             LOGGER.error(e.getLocalizedMessage());
         }
+    }
+
+    public List<Variable> getTaskVariables(String taskId) {
+        List<Variable> taskVariables = new ArrayList<>();
+        try {
+            taskVariables = taskApi.searchTaskVariables(taskId, null, getTasklistAuthTokenHeader())
+                    .stream()
+                    .map(v -> new Variable(v.getName(), v.getValue()))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            LOGGER.error(e.getLocalizedMessage());
+        }
+        return taskVariables;
     }
 
     private Map<String, String> getTasklistAuthTokenHeader() {

@@ -5,6 +5,7 @@ import com.mangoket.camunda.controller.helper.TaskResponseComposer;
 import com.mangoket.camunda.controller.request.Decision;
 import com.mangoket.camunda.controller.response.SubmitTaskDecisionResponse;
 import com.mangoket.camunda.controller.response.TaskResponse;
+import com.mangoket.camunda.model.Variable;
 import com.mangoket.camunda.service.TaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +58,13 @@ public class TaskController {
         SubmitTaskDecisionResponse response = new SubmitTaskDecisionResponse();
         response.setTaskId(taskId);
         response.setDecision(decision);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/tasks/{taskId}/variables")
+    public ResponseEntity<List<Variable>> getTaskVariables(@PathVariable String taskId) {
+        List<Variable> response = taskService.getTaskVariables(taskId);
+        LOGGER.info("Get task variables: taskId={}", taskId);
         return ResponseEntity.ok(response);
     }
 
