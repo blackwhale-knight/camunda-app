@@ -42,7 +42,7 @@ sourceSets {
     main {
         java {
             srcDir 'src/main/java'
-            srcDir 'build/generated-sources/openapi'
+            srcDir 'build/generated-sources/openapi/src/main/java'
         }
     }
 }
